@@ -3,22 +3,29 @@ const crypto = require('crypto');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
 
-// Middleware para entender JSON e servir arquivos estáticos
+// Porta padrão 3000 ou a definida pelo ambiente da SaveinCloud
+const PORT = process.env.PORT || 3000;
+
+// Middleware para entender JSON
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public')));
 
-// Rota Principal: Serve o seu index.html
+/**
+ * CONFIGURAÇÃO DE ARQUIVOS ESTÁTICOS
+ * Como não existe mais a pasta 'public', dizemos ao Express para servir 
+ * os arquivos diretamente da raiz do projeto (__dirname).
+ */
+app.use(express.static(__dirname));
+
+// Rota Principal: Serve o index.html que agora está na mesma pasta que este server.js
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Endpoint da API: Onde a mágica acontece
+// Endpoint da API: Geração da senha com Crypto
 app.post('/api/generate', (req, res) => {
     const { length, hasUpper, hasLower, hasNumber, hasSymbol } = req.body;
 
-    // Definição dos conjuntos de caracteres
     const charset = {
         upper: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
         lower: 'abcdefghijklmnopqrstuvwxyz',
@@ -28,31 +35,29 @@ app.post('/api/generate', (req, res) => {
 
     let characters = '';
     if (hasUpper) characters += charset.upper;
-    if (hasLower) characters += charset.lowercase; // Corrigido para bater com o objeto
+    if (hasLower) characters += charset.lower; 
     if (hasNumber) characters += charset.number;
     if (hasSymbol) characters += charset.symbol;
 
-    // Fallback caso nada seja selecionado
+    // Fallback de segurança
     if (characters === '') characters = charset.lower + charset.number;
 
     let generatedPassword = '';
     const charLength = characters.length;
 
-    // Uso da biblioteca CRYPTO para máxima segurança
+    // Algoritmo de geração segura (CSPRNG)
     for (let i = 0; i < length; i++) {
-        // Gera um byte aleatório seguro
         const randomByte = crypto.randomBytes(1)[0];
-        // Garante uma distribuição uniforme dentro do nosso charset
         generatedPassword += characters.charAt(randomByte % charLength);
     }
 
-    // Retorna a senha em formato JSON
     res.json({ password: generatedPassword });
 });
 
-app.listen(PORT, () => {
+// Iniciando o servidor
+app.listen(PORT, '127.0.0.1', () => {
     console.log(`-------------------------------------------`);
-    console.log(`✅ Servidor rodando em http://localhost:${PORT}`);
-    console.log(`🚀 Pronto para testes locais antes do Deploy!`);
+    console.log(`✅ Servidor SafePass Ativo em: http://127.0.0.1:${PORT}`);
+    console.log(`📂 Servindo arquivos de: ${__dirname}`);
     console.log(`-------------------------------------------`);
 });
