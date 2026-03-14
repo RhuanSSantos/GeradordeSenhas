@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafePass | Gerador de senhas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="toast" class="toast">Copiado com sucesso! 🚀</div>
+
+    <main class="container">
+        <header>
+            <h1>SafePass</h1>
+            <p>Segurança de nível militar para suas contas</p>
+        </header>
+
+        <section class="result-area">
+            <div class="result-container">
+                <input type="text" id="password-display" placeholder="Senha gerada..." spellcheck="false">
+                <button id="copy-btn" title="Copiar Senha">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                </button>
+            </div>
+            
+            <div class="strength-wrapper">
+                <div id="strength-bar"></div>
+                <div class="strength-labels">
+                    <span>Força:</span>
+                    <span id="strength-text">Aguardando...</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="settings">
+            <div class="setting-item">
+                <div class="label-row">
+                    <label>Tamanho da Senha</label>
+                    <span id="length-value" class="badge">12</span>
+                </div>
+                <input type="range" id="length-slider" min="8" max="50" value="12">
+            </div>
+
+            <div class="options-grid">
+                <label class="option-card">
+                    <input type="checkbox" id="uppercase" checked>
+                    <span class="custom-check"></span>
+                    Maiúsculas
+                </label>
+                <label class="option-card">
+                    <input type="checkbox" id="lowercase" checked>
+                    <span class="custom-check"></span>
+                    Minúsculas
+                </label>
+                <label class="option-card">
+                    <input type="checkbox" id="numbers" checked>
+                    <span class="custom-check"></span>
+                    Números
+                </label>
+                <label class="option-card">
+                    <input type="checkbox" id="symbols">
+                    <span class="custom-check"></span>
+                    Símbolos
+                </label>
+            </div>
+
+            <button id="generate-btn" class="main-button">
+                GERAR SENHA SEGURA
+            </button>
+        </section>
+
+        <footer class="pro-footer">
+            <div class="divider"></div>
+            <p>System Security Project</p>
+            <p class="author">Desenvolvido por <span>Rhuan</span></p>
+        </footer>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
