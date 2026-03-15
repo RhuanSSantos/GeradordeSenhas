@@ -167,16 +167,19 @@ input[type=range]::-webkit-slider-thumb {
 /* Toast Notification */
 .toast {
     position: fixed;
-    top: -50px;
+    top: -60px; /* Escondido acima da tela */
     left: 50%;
     transform: translateX(-50%);
-    background: var(--success);
+    background: #10b981;
     color: white;
     padding: 12px 25px;
     border-radius: 30px;
     font-weight: 600;
-    transition: top 0.4s ease;
-    z-index: 1000;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 9999; /* Garante que fique acima de tudo */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
-.toast.show { top: 30px; }
+
+.toast.show {
+    top: 30px; /* Aparece no topo */
+}
