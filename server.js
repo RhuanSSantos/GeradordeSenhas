@@ -55,9 +55,9 @@ app.post('/api/generate', (req, res) => {
 });
 
 // Iniciando o servidor
-app.listen(PORT, '127.0.0.1', () => {
-    console.log(`-------------------------------------------`);
-    console.log(`✅ Servidor SafePass Ativo em: http://127.0.0.1:${PORT}`);
-    console.log(`📂 Servindo arquivos de: ${__dirname}`);
-    console.log(`-------------------------------------------`);
+// Ouve apenas no IP Privado da instância Node.js
+app.listen(PORT, '10.100.31.71', () => {
+    console.log(`✅ Node.js ouvindo na rede privada: http://10.100.31.71:${PORT}`);
 });
+
+
