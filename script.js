@@ -13,20 +13,39 @@ lengthSlider.addEventListener('input', (e) => {
     updateStrengthMeter();
 });
 
-// Notificação Toast
+// Função de Notificação (Toast)
 function showToast() {
-    toast.classList.add('show');
-    setTimeout(() => toast.classList.remove('show'), 3000);
+    const toast = document.getElementById('toast');
+    if (toast) {
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
 }
 
-// Copiar Senha
+// Função de Copiar Senha (Compatível com HTTP e HTTPS)
 copyBtn.addEventListener('click', () => {
     const password = passwordDisplay.value;
-    if (!password) return;
+    if (!password || password === "Senha gerada..." || password === "Erro no Servidor!") return;
 
-    navigator.clipboard.writeText(password).then(() => {
-        showToast();
-    });
+    // Tenta usar a API moderna, se falhar usa o método antigo (fallback)
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(password).then(() => {
+            showToast();
+        });
+    } else {
+        // Fallback para conexões HTTP ou domínios sem SSL total
+        const textArea = document.createElement("textarea");
+        textArea.value = password;
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            showToast();
+        } catch (err) {
+            console.error('Erro ao copiar: ', err);
+        }
+        document.body.removeChild(textArea);
+    }
 });
 
 // Força da Senha com efeito visual melhorado
